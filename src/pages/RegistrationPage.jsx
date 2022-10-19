@@ -1,0 +1,27 @@
+import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContextProvider';
+
+const RegistrationPage = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const { register } = useAuth();
+
+    function handleRegister(){
+        register(username, password);
+    };
+
+  return (
+    <div>
+        <h2>Register Form</h2>
+
+        <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+
+        <input type="text" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+
+        <button onClick={handleRegister}>Register</button>
+    </div>
+  )
+}
+
+export default RegistrationPage
