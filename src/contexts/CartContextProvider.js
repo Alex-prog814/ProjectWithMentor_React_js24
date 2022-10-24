@@ -108,12 +108,30 @@ const CartContextProvider = ({ children }) => {
         });
     };
 
+    function deleteProductInCart(id){
+        let cart = JSON.parse(localStorage.getItem("cart"));
+
+        cart.products = cart.products.filter(elem => elem.item.id !== id);
+
+        cart.totalPrice = calcTotalPrice(cart.products);
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        getCart();
+
+        dispatch({
+            type: CART.GET_CART_LENGTH,
+            payload: cart
+        });
+    };
+
     const values = {
         cart: state.cart,
 
         getCart,
         addProductToCart,
-        changeProductCount
+        changeProductCount,
+        deleteProductInCart
     };
 
   return (

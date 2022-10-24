@@ -25,6 +25,8 @@ const reducer = (state=INIT_STATE, action) => {
 const ProductContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
+    const location = useLocation();
+
     const navigate = useNavigate();
 
     // get all products
@@ -62,12 +64,28 @@ const ProductContextProvider = ({ children }) => {
         getProducts();
     };
 
+    const fetchByParams = (query, value) => {
+        const search = new URLSearchParams(location.search);
+
+        if(value === 'all'){
+            search.delete(query);
+        }else{
+            search.set(query, value);
+        };
+
+        const url = `${location.pathname}?${search.toString()}`;
+
+        navigate(url);
+    };
+
+
     const values = {
         addProduct,
         getProducts,
         deleteProduct,
         getProductDetails,
         saveEditedProduct,
+        fetchByParams,
 
         products: state.products,
         productDetails: state.productDetails
